@@ -3,7 +3,7 @@ import { JwtPayload, AuthUser } from "@/types";
 
 function getSecretKey() {
   return new TextEncoder().encode(
-    process.env.JWT_SECRET ?? "change-this-secret-in-production"
+    process.env.JWT_SECRET ?? "ashutosh123"
   );
 }
 
