@@ -28,7 +28,7 @@ export default function LoginPage() {
       }
 
       document.cookie = `token=${data.data.token}; path=/; max-age=604800; SameSite=Lax; Secure`;
-      router.push("/dashboard");
+      window.location.href = "/dashboard";
     } catch (err: any) {
       setError(err.message);
     } finally {
