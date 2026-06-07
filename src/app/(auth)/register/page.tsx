@@ -29,7 +29,7 @@ export default function RegisterPage() {
         throw new Error(data.error || "Registration failed");
       }
 
-      document.cookie = `token=${data.data.token}; path=/; max-age=604800`;
+      document.cookie = `token=${data.data.token}; path=/; max-age=604800; SameSite=Lax; Secure`;
       router.push("/dashboard");
     } catch (err: any) {
       setError(err.message);
