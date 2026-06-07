@@ -9,6 +9,14 @@ const PUBLIC_PATHS = [
   "/api/campaigns",     // browse campaigns is public
 ];
 
+function redirectNoCache(url: URL) {
+  const response = NextResponse.redirect(url);
+  response.headers.set("Cache-Control", "no-store, no-cache, must-revalidate, proxy-revalidate");
+  response.headers.set("Pragma", "no-cache");
+  response.headers.set("Expires", "0");
+  return response;
+}
+
 export async function proxy(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
@@ -41,14 +49,14 @@ export async function proxy(req: NextRequest) {
     const token = req.cookies.get("token")?.value;
     if (!token) {
       console.log(`[PAGE PROXY] Redirecting to /login from ${pathname} - No token found`);
-      return NextResponse.redirect(new URL("/login", req.url));
+      return redirectNoCache(new URL("/login", req.url));
     }
     try {
       await verifyToken(token);
       return NextResponse.next();
     } catch (err: any) {
       console.error(`[PAGE PROXY] Token verification failed for ${pathname}:`, err?.message || err);
-      return NextResponse.redirect(new URL("/login", req.url));
+      return redirectNoCache(new URL("/login", req.url));
     }
   }
 
